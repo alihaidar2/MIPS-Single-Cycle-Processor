@@ -84,7 +84,7 @@ architecture topArch of top is
 		slOut : out std_logic_vector(31 downto 0) 
 	);
 	end component;
-	
+	 
 	component signExtend -- once
 	port (
 		seIn : in std_logic_vector(15 downto 0);
@@ -112,6 +112,22 @@ architecture topArch of top is
 		muxOut : out std_logic_vector(31 downto 0)
 	);
 	end component;
+	
+	component aluCtrl -- once
+	port (
+		-- not sure about these lengths
+		aluOpIn : in std_logic_vector(2 downto 0);
+		aluOpOut : out std_logic_vector(2 downto 0)
+	);
+	end component;
+	
+	component ctrlUnit -- once
+	port (
+		RegDst, Jump, Branch, MemRead, MemToReg : out std_logic;
+		ALUOp, MemWrite, ALUSrc, RegWrite: out std_logic;
+		Opcode : in std_logic(5 downto 0)
+	);
+	end component;
 
 begin
 	
@@ -132,5 +148,7 @@ begin
 	muxWrite : mux8 port map(x);
 	muxNextPC : mux32 port map(x);
 	muxBranch : mux32 port map(x);
+	aluCtrl : aluCtrl port map(x);
+	ctrlUnit : ctrlUnit port map(x);
 	
 end topArch;
