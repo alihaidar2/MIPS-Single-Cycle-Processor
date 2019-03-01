@@ -139,6 +139,7 @@ begin
 	-- add clocks and resets on combinational logic
 	-- need to figure out how to do sigJump (concatenation)
 	-- need to do Control Units mapping
+	---- involves adding control ports to all necessary components and readjusting
 	PC : programCounter port map(sigPCIn, sigPCOut);
 	IM : instrcutionMem port map(sigPCOut, sigInstruction);
 	regFile: regFile port map(sigInstruction(25 downto 21), sigInstruction(20 downto 16), sigMUX5Out, sigWD, sigRD1, sigRD2);
