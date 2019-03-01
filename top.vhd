@@ -36,11 +36,9 @@ architecture topArch of top is
 		readReg1, readReg2, writeReg : in std_logic_vector(4 downto 0);
 		writeData : in std_logic_vector(7 downto 0);
 		readData1, readData2 : out std_logic_vector(7 downto 0)
-	
 		-- control signal, I'll uncomment once im done everything else
 		-- regWrite : in std_logic
 	);
-	
 	end component;
 	
 	component aluMain -- once
@@ -57,10 +55,10 @@ architecture topArch of top is
 	port (
 		addressIn : in std_logic_vector(7 downto 0); 
 		writeDataIn : in std_logic_vector(7 downto 0);
-		readDataOut : out std_logic_vector(7 downto 0);
+		readDataOut : out std_logic_vector(7 downto 0)
 		
-		-- control signals
-		memRead, memWrite : out std_logic
+		-- control signals, will uncomment when I actually do them
+		-- memRead, memWrite : out std_logic
 	);
 	end component;
 	
@@ -88,7 +86,7 @@ architecture topArch of top is
 	component signExtend -- once
 	port (
 		seIn : in std_logic_vector(15 downto 0);
-		seOut : out std_logic_vector(15 downto 0)
+		seOut : out std_logic_vector(31 downto 0)
 	);
 	end component;
 	
@@ -129,36 +127,34 @@ architecture topArch of top is
 	);
 	end component;
 	
-	signal sigPCIn, sigPCOut, sig4AddOut, sigInstruction : std_logic_vector(31 downto 0);
+	signal sigPCIn, sigPCOut, sig4AddOut, sigInstruction, sigSEOut, sigSLAdd, sigAddOut, sigJump, sigMUXTop1 : std_logic_vector(31 downto 0);
 	signal sigMUX5Out : std_logic_vector(4 downto 0);
+	signal sigWD, sigRD1, sigRD2, sigMUXALU, sigALURes, sigRD : std_logic_vector(7 downto 0);
+	signal sigZero : std_logic;
+	signal sigSLOut : std_logic_vector(27 downto 0);
+	signal clk, rst : std_logic;
 
 begin
 	
-	-- still gotta figure out how to do port
-	-- mapping properly
-	PC : programCounter port map(x);
-	IM : instrcutionMem port map(x);
+	-- add clocks and resets on combinational logic
+	-- need to figure out how to do sigJump (concatenation)
+	-- need to do Control Units mapping
+	PC : programCounter port map(sigPCIn, sigPCOut);
+	IM : instrcutionMem port map(sigPCOut, sigInstruction);
+	regFile: regFile port map(sigInstruction(25 downto 21), sigInstruction(20 downto 16), sigMUX5Out, sigWD, sigRD1, sigRD2);
+	aluMain : aluMain port map(sigRD1, sigMUXALU, sigALURes, sigZero);
+	dataMem : dataMem port map(sigALURes, sigRD2, sigRD);
+	aluBranch : alu32 port map(sig4AddOut, sigSLAdd, sigAddOut);
+	aluPC : alu32 port map(sigPCOut, "0000000000000100", sig4AddOut); -- PC + 4 adder
+	jumpShiftLeft2 : jumpShiftLeft2 port map(sigInstruction(25 downto 0), sigSLOut);
+	branchShiftLeft2 : branchShiftLeft2 port map(sigSEOut, sigSLAdd);
+	signExtend : signExtend port map(sigInstruction(15 downto 0), sigSEOut);
+	muxInstruction : mux5 port map(sigInstruction(20 downto 16), sigInstruction(15 downto 11), sigMUX5Out);
+	muxOp2 : mux8 port map(sigRD2, sigSEOut, sigMUXALU);
+	muxWrite : mux8 port map(sigRD, sigALURes, sigWD);
+	muxBranch : mux32 port map(sig4AddOut, sigAddOut, sigMUXTop1);
+	muxNextPC : mux32 port map(sigJump, sigMUXTop1, sigPCIn);
 	
-	
-	regFile: regFile port map(x);
-	
-	aluMain : aluMain port map(x);
-	
-	dataMem : dataMem port map(x);
-	
-	aluBranch : alu32 port map(x);
-	aluPC : alu32 port map(x);
-	
-	jumpShiftLeft2 : jumpShiftLeft2 port map(x);
-	branchShiftLeft2 : branchShiftLeft2 port map(x);
-	signExtend : signExtend port map(x);
-	muxInstruction : mux5 port map(x);
-	
-	muxOp2 : mux8 port map(x);
-	muxWrite : mux8 port map(x);
-	
-	muxNextPC : mux32 port map(x);
-	muxBranch : mux32 port map(x);
 	
 	aluCtrl : aluCtrl port map(x);
 	ctrlUnit : ctrlUnit port map(x);
