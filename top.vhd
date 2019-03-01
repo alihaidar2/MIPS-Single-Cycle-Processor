@@ -35,21 +35,21 @@ architecture topArch of top is
 	port (
 		readReg1, readReg2, writeReg : in std_logic_vector(4 downto 0);
 		writeData : in std_logic_vector(7 downto 0);
-		readData1, readData2 : out std_logic_vector(7 downto 0);
+		readData1, readData2 : out std_logic_vector(7 downto 0)
 	
-		-- control signal
-		regWrite : in std_logic
+		-- control signal, I'll uncomment once im done everything else
+		-- regWrite : in std_logic
 	);
+	
 	end component;
 	
 	component aluMain -- once
 	port (
 		aluIn1, aluIn2 : in std_logic_vector(7 downto 0);
 		aluOut : out std_logic_vector(7 downto 0);
-		zero : out std_logic;
-	
-		-- control signal
-		aluOP : in std_logic_vector(2 downto 0)
+		zero : out std_logic
+		-- control signal, will uncomment after im done port mapping for everything else
+		--aluOP : in std_logic_vector(2 downto 0)
 	);
 	end component;
 	
@@ -128,6 +128,9 @@ architecture topArch of top is
 		Opcode : in std_logic(5 downto 0)
 	);
 	end component;
+	
+	signal sigPCIn, sigPCOut, sig4AddOut, sigInstruction : std_logic_vector(31 downto 0);
+	signal sigMUX5Out : std_logic_vector(4 downto 0);
 
 begin
 	
@@ -135,19 +138,28 @@ begin
 	-- mapping properly
 	PC : programCounter port map(x);
 	IM : instrcutionMem port map(x);
+	
+	
 	regFile: regFile port map(x);
+	
 	aluMain : aluMain port map(x);
+	
 	dataMem : dataMem port map(x);
+	
 	aluBranch : alu32 port map(x);
 	aluPC : alu32 port map(x);
+	
 	jumpShiftLeft2 : jumpShiftLeft2 port map(x);
 	branchShiftLeft2 : branchShiftLeft2 port map(x);
 	signExtend : signExtend port map(x);
 	muxInstruction : mux5 port map(x);
+	
 	muxOp2 : mux8 port map(x);
 	muxWrite : mux8 port map(x);
+	
 	muxNextPC : mux32 port map(x);
 	muxBranch : mux32 port map(x);
+	
 	aluCtrl : aluCtrl port map(x);
 	ctrlUnit : ctrlUnit port map(x);
 	
