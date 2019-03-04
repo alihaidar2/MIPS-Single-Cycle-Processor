@@ -24,13 +24,23 @@ architecture alu32Arch of ALU32 is
 	);
 	end component;
 	
-	component ofDetector
-	port (
-		ain, bin, Cin : in std_logic;
-		res, overflow : out std_logic
-	);
-	end component;
+	-- didnt use OFDetector component, just a regular adder
+	-- might need to make it an OF detector
 	
+	-- idk if I can port map the Cout and Cins the way I did
+	-- might have to make them signals, yeah you do
+	-- lol but how do I assign them in a generate
+		
+	-- ***************************
+	 
+	-- NEED TO FIGURE OUT HOW TO PROPERLY LINK THE 1 BIT ADDERS
+	
+	-- ***************************
+	
+	signal c0, c1, c2, c3, c4, c5, c6, c7, c8, c9 : std_logic;
+	signal c10, c11, c12, c13, c14, c215, c16, c17 : std_logic;
+	signal c18, c19, c20, c21, c22, c23, c24, c25: std_logic;
+	signal c26, c27, c28, c29, c30 : std_logic;
 	
 begin
 	
@@ -46,10 +56,10 @@ begin
 				add: adder port map(aluIn1(i), aluIn2(i), Cout(i-1), aluOut(i), Cin(i+1));
 		end generate innerloop2;
 		
-		-- fix this
-		-- innerloop3: if (i=31) generate
--- 			ofD: ofDetector port map (aluIn1(i), aluIn2(i), Cout(i-1), aluOut(i), overflow);
--- 		end generate innerloop3;
+		--fix this
+		innerloop3: if (i=31) generate
+			ofD: adder port map (aluIn1(i), aluIn2(i), Cout(i-1), aluOut(i), carryOut);
+		end generate innerloop3;
 		
 	end generate outerloop;
 	
