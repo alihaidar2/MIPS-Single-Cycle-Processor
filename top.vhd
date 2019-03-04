@@ -47,7 +47,7 @@ architecture topArch of top is
 		aluOut : out std_logic_vector(7 downto 0);
 		zero : out std_logic
 		-- control signal, will uncomment after im done port mapping for everything else
-		--aluOP : in std_logic_vector(2 downto 0)
+		-- aluOP : in std_logic_vector(2 downto 0)
 	);
 	end component;
 	
