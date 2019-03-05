@@ -26,6 +26,7 @@ begin
 	op0 <= aluop(1) and sig0;
 	
 	-- output logic
-	aluOpOut <= aluOp(2)&aluOp(1)&aluOp(0);
-	
+	aluOpOut（2） <= op2；
+	aluOpOut（1） <= op1；	
+	aluOpOut（0） <= op0；
 end architecture;
