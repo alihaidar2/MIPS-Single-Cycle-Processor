@@ -8,6 +8,7 @@ use ieee.std_logic_1164.all;
 entity mux8 is
 port(
 	in0, in1 : in std_logic_vector(7 downto 0);
-	muxOut : out std_logic_vector(7 downto 0)
+	muxOut : out std_logic_vector(7 downto 0);
+	ctlMux : in std_logic
 	);
 end entity;

@@ -6,7 +6,8 @@ use ieee.std_logic_1164.all;
 entity mux5 is
 port (
 	in0, in1: in std_logic_vector(4 downto 0);
-	muxOut : out std_logic_vector(4 downto 0)
+	muxOut : out std_logic_vector(4 downto 0);
+	ctlMux : in std_logic
 	);
 end entity;
 	

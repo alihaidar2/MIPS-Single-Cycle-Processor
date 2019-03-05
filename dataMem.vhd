@@ -9,6 +9,8 @@ entity dataMem is
 		
 		-- control signals
 		memRead, memWrite : out std_logic
+		
+		
 	);
 end entity;
 	
