@@ -142,6 +142,9 @@ architecture topArch of top is
 	signal clk, rst : std_logic;
 	signal ctlRegDest, ctlJump, ctlBranch, ctlMemRead, ctlMemToReg, ctlMemWrite, ctlALUSrc, ctlRegWrite : std_logic;  
 	signal ctlALUOp : std_logic_vector(1 downto 0);
+	signal ctlALUtoControl : std_logic_vector(2 downto 0);
+	signal ctlMuxBranch :std_logic;
+
 	signal jumpAddress : std_logic_vector(31 downto 0);
 
 begin
@@ -150,12 +153,13 @@ begin
 	-- need to do Control Units mapping
 	---- involves adding control ports to all necessary components and readjusting
 	
-	jumpAddress <= sig4AddOut(31 downto 28) & sigSLOut;  
+	jumpAddress <= sig4AddOut(31 downto 28) & sigSLOut;
+	ctlMuxBranch <= ctlBranch and zero;  
 	
 	PC : programCounter port map(sigPCIn, sigPCOut);
 	IM : instrcutionMem port map(sigPCOut, sigInstruction);
 	regFile: regFile port map(sigInstruction(25 downto 21), sigInstruction(20 downto 16), sigMUX5Out, sigWD, sigRD1, sigRD2, ctlRegWrite);
-	aluMain : aluMain port map(sigRD1, sigMUXALU, sigALURes, sigZero);
+	aluMain : aluMain port map(sigRD1, sigMUXALU, sigALURes, sigZero, ctlALUtoControl);
 	dataMem : dataMem port map(sigALURes, sigRD2, sigRD, ctlMemRead, ctlMemWrite);
 	aluBranch : alu32 port map(sig4AddOut, sigSLAdd, sigAddOut);
 	aluPC : alu32 port map(sigPCOut, "0000000000000100", sig4AddOut); -- PC + 4 adder
@@ -167,11 +171,13 @@ begin
 	-- why is this taking the 32 bits of sign extend
 	muxOp2 : mux8 port map(sigRD2, "sigSEOut", sigMUXALU, ctlALUSrc);
 	muxWrite : mux8 port map(sigRD, sigALURes, sigWD);
-	muxBranch : mux32 port map(sig4AddOut, sigAddOut, sigMUXTop1, "ctlBranch and zero");
+	muxBranch : mux32 port map(sig4AddOut, sigAddOut, sigMUXTop1, ctlMuxBranch);
 	muxNextPC : mux32 port map(jumpAddress, sigMUXTop1, sigPCIn, ctlJump);
-	ctrlUnit : ctrlUnit port map(sigInstruction(31 downto 26), ctlRegDest, ctlJump, ctlBranch, ctlMemRead, ctlMemToReg, ctlMemWrite, ctlALUSrc, ctlRegWrite, ctlALUOp);
 	
-	aluCtrl : aluCtrl port map(ctlALUOp, sigInstruction(5 downto 0), "ALU control");
+	
+	ctrlUnit : ctrlUnit port map(sigInstruction(31 downto 26), ctlRegDest, ctlJump, ctlBranch, ctlMemRead, ctlMemToReg, ctlALUPOp, ctlMemWrite, ctlALUSrc, ctlRegWrite, ctlALUOp);
+	
+	aluCtrl : aluCtrl port map(ctlALUOp, sigInstruction(5 downto 0), ctlALUtoControl);
 	
 	
 	

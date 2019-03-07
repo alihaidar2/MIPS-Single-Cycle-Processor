@@ -13,4 +13,10 @@ port (
 	aluOP : in std_logic_vector(2 downto 0)
 );
 end entity;
+
+architecture aluMainArch of ALUMain is
+	
+	-- this is left
+	
+	
 	
