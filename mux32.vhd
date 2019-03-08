@@ -11,5 +11,5 @@ port (
 	muxOut : out std_logic_vector(31 downto 0);
 	ctlMux : in std_logic
 	);
-end entity
+end entity;
 	
