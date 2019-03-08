@@ -48,38 +48,7 @@ begin
 		end generate innerloop3;
 		
 	end generate outerloop;
-	
+
 end alu32Arch;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-end architecture;
-	
+
 	
