@@ -11,7 +11,7 @@ end entity;
 architecture logic of BranchMuxCtrl is
 signal branchE,branchNE:std_logic; 
 begin
-    branchE   <= beq and zero;
+        branchE   <= beq and zero;
 	branchNE <= BNE and (not zero);
 	muxSel    <= branchE or branchNE;
 end architecture logic;
