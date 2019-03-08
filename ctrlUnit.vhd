@@ -3,8 +3,8 @@ use ieee.std_logic_1164.all;
 
 entity ctrlUnit is
 	port (
-	Opcode : in std_logic(5 downto 0);
-	RegDst, Jump, Branch, MemRead, MemToReg : out std_logic;
+	Opcode : in std_logic_vector(5 downto 0);
+	RegDst, Jump, BEQ,BNE, MemRead, MemToReg : out std_logic;
 	MemWrite, ALUSrc, RegWrite: out std_logic;
 	ALUOp: out std_logic_vector(1 downto 0)
 );
@@ -30,6 +30,5 @@ begin
 	BNE     <=b_ne;
 	ALUOp(1)<=R_format;
 	ALUOp(0)<=b_eq or b_ne;
-	Jump    <=jp
+	Jump    <=jp;
 end architecture ctrLogic;
-	
