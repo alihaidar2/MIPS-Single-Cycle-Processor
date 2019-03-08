@@ -5,14 +5,14 @@ use ieee.numeric_std.all;
 --Demux used inside the register file.
 --Will drive the data to be written in the selected reg.
 
-entity demux32x8 is
+entity demux8x8 is
 	port(sel :in stdl_logic_vector(2 downto 0);
-		dataWrite: int std_logic_vector(31 downto 0);
-		r0, r1, r2, r3, r4, r5, r6, r7 : out std_logic_vector(31 downto 0));
+		dataWrite: int std_logic_vector(7 downto 0);
+		r0, r1, r2, r3, r4, r5, r6, r7 : out std_logic_vector(7 downto 0));
 		
-end entity demux32x8;
+end entity demux8x8;
 
-architecture RTL of demux32x8 is
+architecture RTL of demux8x8 is
 	
 begin
 	

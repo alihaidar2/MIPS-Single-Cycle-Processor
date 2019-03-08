@@ -6,15 +6,15 @@ use ieee.numeric_std.all;
 --selects which register to read from. 
 --Will be generated two times for the 2 read outputs.
 
-entity mux32x8 is
+entity mux8x8 is
 	
-	port(r0, r1, r2, r3, r4, r5, r6, r7 : in std_logic_vector(31 downto 0);
+	port(r0, r1, r2, r3, r4, r5, r6, r7 : in std_logic_vector(7 downto 0);
 		sel :in stdl_logic_vector(2 downto 0);
-		dataRead: out std_logic_vector(31 downto 0));
+		dataRead: out std_logic_vector(7 downto 0));
 		
-end entity mux32x8;
+end entity mux8x8;
 
-architecture muxBehave of mux32x8 is
+architecture muxBehave of mux8x8 is
 begin
 	dataRead <= ( (r0 and not sel(2) and not sel(1) and not sel(0)) or 
 	(r1 and not sel(2) and not sel(1) and sel(0)) or
