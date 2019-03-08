@@ -11,8 +11,7 @@ end entity;
 architecture behave of signExtend is
 begin
 
-seOut(31 downto 16) <= seIn(15);
+seOut(31 downto 16) <=(others=>seIn(15));
 seOut(15 downto 0) <= seIn;
 
 end architecture;
-	
