@@ -1,5 +1,3 @@
--- dont actually need shifting hardware, all you do is add
--- 00 to the least significant side (Figure 4.9 textbook p.256)
 
 -- This shift component is used for the Jump operation
 
@@ -15,5 +13,11 @@ port (
 	slOut : out std_logic_vector(27 downto 0) 
 );
 end entity;
-
-	
+architecture jsl of jumpShiftLeft2 is
+signal temp: std_logic_vector(25 downto 0);
+begin
+     temp<=slIn;
+	   slOut(27 downto 2)<=temp;
+	   slOut(1 downto 0)<= (others=>'0');
+	 
+end jsl;
