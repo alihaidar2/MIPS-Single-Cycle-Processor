@@ -1,31 +1,30 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 
-entity d_latch is
-   port(d, clk: in std_logic; q: out std_logic);
-end d_latch;
+entity dff is
+	port(
+		d, clk, rst: in std_logic;
+		q: out std_logic);
+		
+end entity dff;
+architecture dfflogic of dff is
+	
+component nandGate
+	port(a, b: in std_logic;
+		y: out std_logic
+	);
+	end component;
 
-architecture basic of d_latch is
+signal y0, y1, y2, y3: std_logic;
+signal compD: std_logic;
+
 begin
-     latch_behavior: process is
-     begin
-        if clk = 1 then
-             q <= d after 2 ns;
-        end if;
-        wait on clk, d;
-     end process latch_behavior;
-end architecture basic;
+  compD<=not d;
+	
+	q <= not(rst) and y3;
+	nand0: nandGate port map(d,clk, y0);
+	nand1: nandGate port map(clk,compD,y1);
+	nand2: nandGate port map(y1,y3,y2);
+	nand3: nandGate port map(y1,y2,y3);
 
-entity and2 is
-port (clk, load: in std_logic; y: out std_logic);
-end and2;
-
-architecture basic of and2 is
-begin
-    and2_behavior: process is
-   begin
-       y <= clk and load after 2 ns;
-      wait on clk, load;
-   end process and2_behavior;
-end architecture basic;
+end architecture dfflogic;
