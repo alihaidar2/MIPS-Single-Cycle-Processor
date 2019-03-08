@@ -1,5 +1,5 @@
 library ieee;
-use ieee,std_logic_1164.all;
+use ieee.std_logic_1164.all;
 
 entity aluCtrl is
 port (
@@ -20,13 +20,13 @@ begin
 	-- internal logic
 	-- does this work this way?
 	sig0 <= functionbits(0) or functionBits(3);
-	sig1 <= aluOp(1) and functionBits(1);
-	op2 <= aluOp(0) or sig1;
-	op1 <= not(aluOp(1)) or not(functionBits(2));
-	op0 <= aluop(1) and sig0;
+	sig1 <= aluOpIn(1) and functionBits(1);
+	op2 <= aluOpIn(0) or sig1;
+	op1 <= not(aluOpIn(1)) or not(functionBits(2));
+	op0 <= aluopIn(1) and sig0;
 	
 	-- output logic
-	aluOpOut（2） <= op2；
-	aluOpOut（1） <= op1；	
-	aluOpOut（0） <= op0；
+	aluOpOut(2) <= op2;
+	aluOpOut(1) <= op1;	
+	aluOpOut(0) <= op0;
 end architecture;
