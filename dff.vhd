@@ -7,6 +7,7 @@ entity dff is
 		q: out std_logic);
 		
 end entity dff;
+
 architecture dfflogic of dff is
 	
 component nandGate

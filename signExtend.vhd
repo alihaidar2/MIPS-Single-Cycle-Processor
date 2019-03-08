@@ -7,3 +7,12 @@ entity signExtend is
 	seOut : out std_logic_vector(31 downto 0)
 	);
 end entity;
+
+architecture behave of signExtend is
+begin
+
+seOut(31 downto 16) <= seIn(15);
+seOut(15 downto 0) <= seIn;
+
+end architecture;
+	
