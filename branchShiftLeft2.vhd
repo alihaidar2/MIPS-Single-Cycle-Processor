@@ -16,4 +16,12 @@ port (
 );
 end entity;
 
-	
+architecture bsl of branchShiftLeft2 is
+signal temp: std_logic_vector(29 downto 0);
+begin
+       temp<=slIn(29 downto 0);	 
+	   slOut(31 downto 2)<=temp;
+	   slOut(1 downto 0)<= (others=>'0');
+	 
+end bsl;
+
