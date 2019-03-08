@@ -31,4 +31,4 @@ begin
 	res <= sig2;
 	Cout <= (not(ain) and not(b) and res) or (ain and b and not(res));
 
-end subtract;
+end sub;

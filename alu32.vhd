@@ -26,21 +26,7 @@ architecture alu32Arch of ALU32 is
 	
 	-- didnt use OFDetector component, just a regular adder
 	-- might need to make it an OF detector
-	
-	-- idk if I can port map the Cout and Cins the way I did
-	-- might have to make them signals, yeah you do
-	-- lol but how do I assign them in a generate
-		
-	-- ***************************
-	 
-	-- NEED TO FIGURE OUT HOW TO PROPERLY LINK THE 1 BIT ADDERS
-	
-	-- ***************************
-	
-	signal c0, c1, c2, c3, c4, c5, c6, c7, c8, c9 : std_logic;
-	signal c10, c11, c12, c13, c14, c215, c16, c17 : std_logic;
-	signal c18, c19, c20, c21, c22, c23, c24, c25: std_logic;
-	signal c26, c27, c28, c29, c30 : std_logic;
+
 	signal sigLink : std_logic_vector(30 downto 0);
 	
 begin
