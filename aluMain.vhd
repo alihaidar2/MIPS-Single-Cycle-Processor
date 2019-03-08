@@ -17,6 +17,8 @@ end entity;
 architecture aluMainArch of ALUMain is
 	
 	-- this is left
+	--
+	-- need to create 16 bit AND, OR, add, subtract and SOLT circuits
 	
 	
 	
