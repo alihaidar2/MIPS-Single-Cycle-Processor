@@ -41,24 +41,24 @@ architecture alu32Arch of ALU32 is
 	signal c10, c11, c12, c13, c14, c215, c16, c17 : std_logic;
 	signal c18, c19, c20, c21, c22, c23, c24, c25: std_logic;
 	signal c26, c27, c28, c29, c30 : std_logic;
+	signal sigLink : std_logic_vector(30 downto 0);
 	
 begin
 	
 	outerloop: for i in 0 to 31 generate
 		
 		innerloop1: if (i = 0) generate
-			add: adder port map(aluIn1(i), aluIn2(i), 0, aluOut(i), Cin(i+1));
+			add: adder port map(aluIn1(i), aluIn2(i), 0, aluOut(i), sigLink(0));
 		end generate innerloop1;
 		
 		innerloop2: if (i=1|i=2|i=3|i=4|i=5|i=6|i=7|i=8|i=9|i=10|i=11|
 						i=12|i=13|i=14|i=15|i=16|i=17|i=18|i=19|i=20|
 						i=21|i=22|i=23|i=24|i=25|i=26|i=27|i=28|i=29|i=30) generate 
-				add: adder port map(aluIn1(i), aluIn2(i), Cout(i-1), aluOut(i), Cin(i+1));
+				add: adder port map(aluIn1(i), aluIn2(i), sigLink(i-1), aluOut(i), sigLink(i+1));
 		end generate innerloop2;
 		
-		--fix this
 		innerloop3: if (i=31) generate
-			ofD: adder port map (aluIn1(i), aluIn2(i), Cout(i-1), aluOut(i), carryOut);
+			ofD: adder port map (aluIn1(i), aluIn2(i), sigLink(i-1), aluOut(i), carryOut);
 		end generate innerloop3;
 		
 	end generate outerloop;

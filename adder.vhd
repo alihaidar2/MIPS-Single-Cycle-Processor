@@ -1,4 +1,5 @@
 -- this component will add 2 bits
+-- 1 BIT ADDER
 
 library ieee;
 use ieee.std_logic_1164.all;
