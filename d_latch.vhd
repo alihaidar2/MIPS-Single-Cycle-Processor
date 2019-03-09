@@ -5,17 +5,19 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity d_latch is
-   port(d, clk: in std_logic; q: out std_logic);
+   port(d, clk, rst: in std_logic; q: out std_logic);
 end d_latch;
 
 architecture basic of d_latch is
 begin
      latch_behavior: process is
      begin
-        if clk = 1 then
-             q <= d after 2 ns;
-        end if;
-        wait on clk, d;
+        if rst = '1' then
+        	q <= '0' after 2 ns;
+        elsif clk = '1' then	
+    		q <= d after 2ns;
+    	end if;
+        wait on clk, d, rst;
      end process latch_behavior;
 end architecture basic;
 

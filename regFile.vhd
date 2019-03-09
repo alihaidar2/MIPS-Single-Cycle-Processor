@@ -1,12 +1,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- Register File composed of eight 8bits registers
+--2 muxes 8x1 are used, 1 for each data read output
+--They select from which register to read, based on instruction
+--a 1x8 demux is used to select a register to write data in
+
 library work;
 use work.all;
 
 entity regFile is
 port (
-
 	readReg1, readReg2, writeReg : in std_logic_vector(4 downto 0);
 	clk, writeCtl: in std_logic;
 	writeData : in std_logic_vector(7 downto 0);
@@ -15,7 +19,8 @@ port (
 end entity;
 	
 architecture regFilebehave of regFile is
-	
+
+--components used	
 component reg8bits is
 	port(
 		clk, load : in std_logic;
@@ -53,6 +58,7 @@ signal regIn5: std_logic_vector(7 downto 0);
 signal regIn6: std_logic_vector(7 downto 0);
 signal regIn7: std_logic_vector(7 downto 0);
 
+--Behavior
 begin
 	read1: mux8x8 port map(r0 => regOut0, r1 => regOut1,r2 => regOut2,r3 => regOut3,r4 => regOut4,
 		r5 => regOut5,r6 => regOut6,r7 => regOut7,sel => readReg1(2 downto 0), dataRead => readData1
@@ -76,4 +82,18 @@ begin
 	reg7 : reg8bits port map(clk => clk, load => writeCtl, din => regIn7, dout => regOut7);
 			
 end architecture;
-	
+
+-- Linking of components and top level entity	
+configuration basic_level of regFile is
+	for regFilebehave
+		for all : mux8x8
+			use entity work.mux8x8(muxBehave);
+		end for;
+		for all : demux8x8
+			use entity work.demux8x8(RTL);
+		end for;
+		for all : reg8bits
+			use entity work.reg8bits(regbehave);
+		end for;			
+	end for;
+end basic_level;	
