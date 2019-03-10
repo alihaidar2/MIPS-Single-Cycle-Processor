@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 -- Register File composed of eight 8bits registers
 --2 muxes 8x1 are used, 1 for each data read output

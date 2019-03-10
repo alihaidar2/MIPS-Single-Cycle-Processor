@@ -6,6 +6,7 @@
 
 library ieee; 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity branchShiftLeft2 is
 	-- im thinking this one discards the msb ends 

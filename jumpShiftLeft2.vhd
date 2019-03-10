@@ -3,6 +3,7 @@
 
 library ieee; 
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity jumpShiftLeft2 is
 	-- im thinking this one adds the 00 to LSB

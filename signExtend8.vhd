@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 --Sign extend from 8 bits to 32
 entity signExtend8 is

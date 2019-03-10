@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 -- 1 bit Full adder/substractor. Integrated in the main ALU. Generated 32 times
 -- X - Y = X + (-Y) = X + ~Y + 1

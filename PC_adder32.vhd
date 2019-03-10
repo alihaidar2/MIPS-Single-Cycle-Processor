@@ -1,5 +1,6 @@
 library ieee;
 use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
 
 library work;
 use work.all;
@@ -8,7 +9,7 @@ use work.all;
 
 entity PC_adder32 is
 	
-generic(g_next_instr : integer := 4;
+generic(g_next_instr : std_logic_vector(31 downto 0) := x"0004";
 		g_carry_in : std_logic := '0');	
 		
 port (

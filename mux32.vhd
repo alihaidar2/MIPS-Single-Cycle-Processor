@@ -1,5 +1,6 @@
 library ieee;
 use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
 
 -- Four 32 bits inputs mux used in the main ALU for operation selection
 entity mux32x4 is

@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 -- component used for overflow detection
 -- Will be called for the most significants bits of add/sub module

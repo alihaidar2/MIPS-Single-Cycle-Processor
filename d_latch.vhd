@@ -1,5 +1,6 @@
 library ieee;
 use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
 
 entity d_latch is
    port(d, clk, rst: in std_logic; q: out std_logic);
