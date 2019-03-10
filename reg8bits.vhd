@@ -27,15 +27,15 @@ component and2 is
 end component;
 
     signal int_clk : std_logic;
-    
---Behavior    
+    signal zero : std_logic := '0';
+--Architecture  
 begin
 	
 	gate: and2 port map(clk => clk, load =>load, y => int_clk);
 		
 	oneloop: for i in 0 to 7 generate
 		
-		bits: d_latch port map(d => din(i), clk => int_clk, rst => '0', q => dout(i));
+		bits: d_latch port map(d => din(i), clk => int_clk, rst => zero, q => dout(i));
 		
 	end generate oneloop;
 

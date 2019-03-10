@@ -58,7 +58,7 @@ signal regIn5: std_logic_vector(7 downto 0);
 signal regIn6: std_logic_vector(7 downto 0);
 signal regIn7: std_logic_vector(7 downto 0);
 
---Behavior
+--Architecture
 begin
 	read1: mux8x8 port map(r0 => regOut0, r1 => regOut1,r2 => regOut2,r3 => regOut3,r4 => regOut4,
 		r5 => regOut5,r6 => regOut6,r7 => regOut7,sel => readReg1(2 downto 0), dataRead => readData1

@@ -1,13 +1,62 @@
 library ieee;
-use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-entity nandGate is	
-	port(a, b : in std_logic;
-		y: out std_logic);		
-end nandGate;
 
-architecture nandBehave of nandGate is
-begin	
-	y <= not (a and b);	
-end nandBehave;
+library work;
+use work.all;
 
+-- 32 bits adder to compute address of next instruction (PC+4).
+
+entity PC_adder32 is
+	
+generic(g_next_instr : integer := 4;
+		g_carry_in : std_logic := '0');	
+		
+port (
+	CarryIn : in std_logic := g_carry_in; 
+	aluIn1 : in std_logic_vector(31 downto 0);
+	aluOut : out std_logic_vector(31 downto 0);
+	carryOut : out std_logic
+);
+end entity;
+	
+architecture adder32behave of PC_adder32 is
+	
+--components used	
+component adder 
+	PORT ( Cin, x, y : IN STD_LOGIC ;
+			s, Cout : OUT STD_LOGIC );
+end component;
+	
+	signal carry: std_logic_vector(30 downto 0);
+	signal nxt: std_logic_vector(31 downto 0);
+
+--Architecture		
+begin
+	nxt <= std_logic_vector(to_unsigned(g_next_instr, nxt'length)); -- Converts integer 4 to std_logic_vector
+
+	outerloop: for i in 0 to 31 generate
+		
+		innerloop1: if (i = 0) generate
+			add0: adder port map(x => aluIn1(i), y => nxt(i), Cin => CarryIn, Cout => carry(i), s =>aluOut(i));
+		end generate innerloop1;
+		
+		innerloop2: if (i>0 and i<31) generate 
+				add: adder port map(x => aluIn1(i), y => nxt(i), Cin => carry(i-1), Cout => carry(i), s =>aluOut(i));
+		end generate innerloop2;
+		
+		innerloop3: if (i=31) generate
+			add31: adder port map (x => aluIn1(i), y => nxt(i), Cin => carry(i-1), Cout => carryOut, s =>aluOut(i));
+		end generate innerloop3;
+		
+	end generate outerloop;
+
+end architecture;
+
+-- Linking of components and top level entity
+configuration basic_level of PC_adder32 is
+	for adder32behave
+		for all : adder
+			use entity work.adder(addArch);
+		end for;
+	end for;
+end basic_level;

@@ -18,7 +18,7 @@ component d_latch is
    port(d, clk, rst: in std_logic; q: out std_logic);
 end component;
 
---Behavior 
+--Architecture 
 begin
 iFF : for i in 0 to 31 generate
 FF : d_latch port map (d => PC_in(i), clk => clk, rst => rst, q => PC_out(i));
