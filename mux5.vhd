@@ -2,13 +2,20 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- this mux is generated once, for Write Register input
+-- Two 5 bits input mux. Generated once, for Write Register input
 
-entity mux5 is
+entity mux5x2 is
 port (
-	in0, in1: in std_logic_vector(4 downto 0);
-	muxOut : out std_logic_vector(4 downto 0);
-	ctlMux : in std_logic
+		sel : in std_logic;
+		a, b : in std_logic_vector(4 downto 0);
+		z : out std_logic_vector(4 downto 0)
 	);
 end entity;
+
+architecture muxBehave of mux5x2 is
+	
+begin
+	z <= (not(sel) and (b)) or (sel and a);
+
+end architecture muxBehave;
 	

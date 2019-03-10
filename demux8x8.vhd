@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--Eight 8bits output demux
 --Demux used inside the register file.
 --Will drive the data to be written in the selected reg.
 

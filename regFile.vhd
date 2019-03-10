@@ -3,9 +3,9 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 -- Register File composed of eight 8bits registers
---2 muxes 8x1 are used, 1 for each data read output
+--2 muxes 8 to 1 are used, 1 for each data read output
 --They select from which register to read, based on instruction
---a 1x8 demux is used to select a register to write data in
+--a 1 to 8 demux is used to select a register to write data in
 
 library work;
 use work.all;
