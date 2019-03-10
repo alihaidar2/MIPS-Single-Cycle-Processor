@@ -1,41 +1,37 @@
--- this ALU is used for main calculations
-
 library ieee;
-use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
+--Main ALU. Composed of add&sub, three 32 bits muxes
 entity ALUMain is
 port (
-	aluIn1, aluIn2 : in std_logic_vector(7 downto 0);
-	aluOut : out std_logic_vector(7 downto 0);
-	zero : out std_logic;
-	
-	-- control signal
-	aluOP : in std_logic_vector(2 downto 0)
+	Cin : std_logic;
+	aluOP : in std_logic_vector(2 downto 0);
+	aluIn1, aluIn2 : in std_logic_vector(31 downto 0);
+	aluOut : out std_logic_vector(7 downto 0); --Output should be 8 bits as we're using 256x8 data mem.
+	Cout : std_logic;
+	zero : out std_logic
 );
 end entity;
 
 architecture aluMainArch of ALUMain is
 	
-	-- for add operation
-	component adder8bit
-	port (
-		aluIn1, aluIn2 : in std_logic_vector(7 downto 0);
-		aluOut : out std_logic_vector(6 downto 0);
-		cOut : out std_logic
-		-- control, clk, rst : in std_logic
-		);
-	end component;
-	
-	--for subtract operation
-	component sub8bit
-	port (
-		ain, bin, Cin : in std_logic;
-		res, Cout : out std_logic
-		);
-	end component;
-	
-	
-	
+component add_sub
+	PORT ( Cin, x, y : IN STD_LOGIC ;
+			s, Cout : OUT STD_LOGIC );
+end component;
+
+component mux32
+	port(
+		sel :in std_logic; 
+		a, b: in std_logic_vector(31 downto 0);
+		z: out std_logic_vector(31 downto 0)
+	);
+end component;
+
+-- Signals needed to extend operands to 32 bits.
+	signal sig_aluIn1: std_logic_vector(31 downto 0);
+	signal sig_aluIn2: std_logic_vector(31 downto 0); 
+	signal sig_aluOut: std_logic_vector(31 downto 0);  
 begin
 	
 	-- this is left

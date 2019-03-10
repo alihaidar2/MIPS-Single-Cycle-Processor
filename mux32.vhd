@@ -1,15 +1,18 @@
 library ieee;
 use ieee.std_logic_1164.all;
-
--- this multiplexor will be generated 2 times:
--- * PC next value (jump vs branch)
--- * 2nd input of that ^ multiplexor
+use ieee.numeric_std.all;
 
 entity mux32 is
-port (
-	in0, in1 : in std_logic_vector(31 downto 0);
-	muxOut : out std_logic_vector(31 downto 0);
-	ctlMux : in std_logic
+	port(
+		sel :in std_logic; 
+		a, b: in std_logic_vector(31 downto 0);
+		z: out std_logic_vector(31 downto 0)
 	);
-end entity;
+end entity mux32;
+
+architecture muxBehave of mux32 is
 	
+begin
+	z <= (not(sel) and (b)) or (sel and a);
+
+end architecture muxBehave;
