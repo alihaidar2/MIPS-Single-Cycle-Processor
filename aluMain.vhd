@@ -53,7 +53,6 @@ end component;
 	signal sig_OR: std_logic_vector(31 downto 0);
 	signal sig_AND: std_logic_vector(31 downto 0);
 	signal sig_SLT: std_logic_vector(31 downto 0);	 
-	signal sig_zero: std_logic;
 	
 --Architecture------------	
 begin
@@ -86,7 +85,7 @@ begin
 	sig_OR <= aluIn1 or aluIn2;
 	sig_AND <= aluIn1 and aluIn2;
 	
-	sig_zero <= not(aluOut(0) or aluOut(1) or aluOut(2) or aluOut(3) or aluOut(4) or aluOut(5) or
+	zero <= not(aluOut(0) or aluOut(1) or aluOut(2) or aluOut(3) or aluOut(4) or aluOut(5) or
 		 aluOut(6) or aluOut(7) or aluOut(8) or aluOut(9) or aluOut(10) or aluOut(11) or aluOut(12) or
 		  aluOut(13) or aluOut(14) or aluOut(15) or aluOut(16) or aluOut(17) or aluOut(18) or aluOut(19) or
 		   aluOut(20) or aluOut(21) or aluOut(22) or aluOut(23) or aluOut(24) or aluOut(25) or aluOut(26) or
