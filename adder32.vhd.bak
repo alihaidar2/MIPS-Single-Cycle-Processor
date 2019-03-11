@@ -50,11 +50,11 @@ begin
 end architecture;
 
 -- Linking of components and top level entity
-configuration conf_adder32 of adder32 is
+configuration basic_level of adder32 is
 	for adder32behave
 		for all : adder
 			use entity work.adder(addArch);
 		end for;
 	end for;
-end conf_adder32;
+end basic_level;
 	

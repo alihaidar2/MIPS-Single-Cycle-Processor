@@ -22,7 +22,7 @@ component d_latch is
    port(d, clk, rst: in std_logic; q: out std_logic);
 end component;
 
-component and_gate2 is
+component and2 is
 	port (clk, load: in std_logic; y: out std_logic);
 end component;
 
@@ -31,7 +31,7 @@ end component;
 --Architecture  
 begin
 	
-	gate: and_gate2 port map(clk => clk, load =>load, y => int_clk);
+	gate: and2 port map(clk => clk, load =>load, y => int_clk);
 		
 	oneloop: for i in 0 to 7 generate
 		
@@ -42,15 +42,15 @@ begin
 end architecture regbehave;
 
 -- Linking of components and top level entity
-configuration conf_reg8bits of reg8bits is
+configuration basic_level of reg8bits is
 	for regbehave
 		for all : d_latch
 			use entity work.d_latch(basic);
 		end for;
-		for all : and_gate2
-			use entity work.and_gate2(basic);
+		for all : and2
+			use entity work.and2(basic);
 		end for;
 	end for;
-end conf_reg8bits;
+end basic_level;
 
 

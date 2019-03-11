@@ -93,12 +93,12 @@ begin
 		    aluOut(27) or aluOut(28) or aluOut(29) or aluOut(30) or aluOut(31));
 		    	
 	sig_SLT(31 downto 1) <= (others=>'0');
-	sig_SLT(0) <= sig_aluOut(31); --For the least significant bit, SLT value should be sign of (aluIn1 ï¿½ aluIn2)
+	sig_SLT(0) <= sig_aluOut(31); --For the least significant bit, SLT value should be sign of (aluIn1 – aluIn2)
 	
 end architecture;	
 
 -- Linking of components and top level entity-----------
-configuration conf_aluMain of aluMain is
+configuration basic_level of aluMain is
 	for aluMainArch
 		for all : add_sub
 			use entity work.add_sub(behave);
@@ -110,7 +110,7 @@ configuration conf_aluMain of aluMain is
 			use entity work.mux32x4(muxBehave);
 		end for;
 	end for;
-end conf_aluMain;	
+end basic_level;	
 	
 	
 	

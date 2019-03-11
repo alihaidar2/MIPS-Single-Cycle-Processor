@@ -19,11 +19,11 @@ begin
      end process latch_behavior;
 end architecture basic;
 
-entity and_gate2 is
+entity and2 is
 port (clk, load: in std_logic; y: out std_logic);
-end and_gate2;
+end and2;
 
-architecture basic of and_gate2 is
+architecture basic of and2 is
 begin
     and2_behavior: process is
    begin

@@ -28,10 +28,10 @@ end generate iFF;
 end architecture reg;
 
 -- Linking of components and top level entity
-configuration basic_level of PCreg is
+configuration conf_PCreg of PCreg is
 	for reg
 		for all : d_latch
 			use entity work.d_latch(basic);
 		end for;
 	end for;
-end basic_level;
+end conf_PCreg;
