@@ -92,7 +92,7 @@ begin
 		    aluOut(27) or aluOut(28) or aluOut(29) or aluOut(30) or aluOut(31));
 		    	
 	sig_SLT(31 downto 1) <= (others=>'0');
-	sig_SLT(0) <= sig_aluOut(31); --For the least significant bit, SLT value should be sign of (aluIn1 � aluIn2)
+	sig_SLT(0) <= sig_aluOut(31); --For the least significant bit, SLT value should be sign of (aluIn1 - aluIn2)
 	
 end architecture;	
 
