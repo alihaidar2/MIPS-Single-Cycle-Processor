@@ -81,7 +81,7 @@ begin
 	overflow: ofDetector port map(a => aluIn1(31), b => aluIn2(31), result => sig_aluOut(31), ovrflw => ovrflw);
 	operation: mux32x4 port map(sel => aluOP(1 downto 0), logicAND => sig_AND, logicOR => sig_OR, add_sub => sig_aluOut, 
 									SLT => sig_SLT, z => aluOut);
-	aluOut <= sig_aluOut;
+
 	sig_OR <= aluIn1 or aluIn2;
 	sig_AND <= aluIn1 and aluIn2;
 	
