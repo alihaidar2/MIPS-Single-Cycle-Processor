@@ -254,4 +254,4 @@ configuration conf_top of top is
 			use entity work.ctrlUnit(ctrLogic);
 		end for;
 	end for;
-end conf_PC_adder32;
+end conf_top;
