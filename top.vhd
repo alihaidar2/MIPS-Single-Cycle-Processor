@@ -228,7 +228,7 @@ begin
         RegWriteOut<=RegWrite;
 	MemWriteOut<=MemWrite;
 	ZeroOut<=zero;
-	----BranchOut<=
+	BranchOut<=BranchMuxSelout;
 	InstructionOut<=InsMemOut;
 	-------still misssing one Mux for the MuxOut
 	
