@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 library work;
 use work.all;
 
--- 32 bits adder for address computation
+--  32 bits adder for address computation
 
 entity adder32 is
 	
@@ -57,4 +57,5 @@ configuration conf_adder32 of adder32 is
 		end for;
 	end for;
 end conf_adder32;
+		
 	
