@@ -161,54 +161,65 @@ port (
 		ALUOp: out std_logic_vector(1 downto 0)
 	);
 end component;
+	-----------------------------------------------------
+	signal AddressJumpSelMuxOut : std_logic_vector(31 downto 0);
+	signal PCaddrOut : std_logic_vector(31 downto 0);
+	signal InsMemOut,Data1,Data2,AluBin : std_logic_vector(31 downto 0);
+	signal nextPC,Aluout,BranchAluRes,BranchMuxOut : std_logic_vector(31 downto 0);
+	signal jumpShLaddr : std_logic_vector(27 Downto 0);
+	signal RegDst, Jump, BEQ,BNE, MemRead, MemToReg,MemWrite, ALUSrc, RegWrite: std_logic;
+	signal ALUOp:std_logic_vector(1 downto 0);
+	signal signExtIns,shLsignExt:std_logic_vector(31 downto 0);
+	signal writeReg:std_logic_vector(4 downto 0);
+	signal aluOpout:std_logic_vector(2 downto 0);
+	signal zero,overflow,carryOut,PCcarryout,BranchCarryout,BranchMuxSelout:std_logic;
+	signal jumpAddress,dataMemOut,dataMemMuxOut:std_logic_vector(31 downto 0);
 	
-	
-	
-	signal sigPCIn, sigPCOut, sig4AddOut, sigInstruction, sigSEOut, sigSLAdd, sigAddOut, sigJump, sigMUXTop1 : std_logic_vector(31 downto 0);
-	signal sigMUX5Out : std_logic_vector(4 downto 0);
-	signal sigWD, sigRD1, sigRD2, sigMUXALU, sigALURes, sigRD : std_logic_vector(7 downto 0);
-	signal sigZero : std_logic;
-	signal sigSLOut : std_logic_vector(27 downto 0);
-	signal clk, rst : std_logic;
-	signal ctlRegDest, ctlJump, ctlBranch, ctlMemRead, ctlMemToReg, ctlMemWrite, ctlALUSrc, ctlRegWrite : std_logic;  
-	signal ctlALUOp : std_logic_vector(1 downto 0);
-	signal ctlALUtoControl : std_logic_vector(2 downto 0);
-	signal ctlMuxBranch :std_logic;
+	------mif file(not sure correct or not)
+	------Instruction Memory mif file
+	type mem_Ins is array(0 to 255) of unsigned(31 downto 0);
+    signal ram : mem_Ins;
+    attribute ram_init_file : string;
+    attribute ram_init_file of ram : signal is "InstructionMem.mif";
+	------Data Memory mif file
+	type mem_dat is array(0 to 255) of unsigned(31 downto 0);
+    signal ram : mem_dat;
+    attribute ram_init_file : string;
+    attribute ram_init_file of ram : signal is "dataMem.mif";
 
-	signal jumpAddress : std_logic_vector(31 downto 0);
-
-begin
+begin 
+	jumpAddress(31 downto 28)<=nextPC(31 downto 28);
+	jumpAddress(27 downto 0)<=jumpShLaddr;
+	PC : PCreg port map(GClock,GReset,AddressJumpSelMuxOut,PCaddrOut);
+	PCadder: PC_adder32 port map(g_carry_in,PCaddrOut,nextPC,PCcarryout);
+	InsMem: instructionMem port map(PCaddrOut,InsMemOut);
+	shL2Jump:jumpShiftLeft2 port map(InsMemOut(25 downto 0),jumpShLaddr);
+	ctrUnit:ctrlUnit port map(InsMemOut(31 downto 26),RegDst, Jump, BEQ,BNE, MemRead, MemToReg,MemWrite, ALUSrc, RegWrite,ALUOp);
+        RegDstMux:mux5x2 port map(RegDst,InsMemOut(20 downto 16),InsMemOut(15 downto 11),writeReg);
+	InsSignExtend:signExtend port map(InsMemOut(15 downto 0),signExtIns);
+	regFile:regFile port map(InsMemOut(25 downto 21),InsMemOut(20 downto 16),writeReg,GClock,RegWrite,dataMemMuxOut,data1,data2);
+        AluCtrl:aluCtrl port map(ALUOp,InsMemOut(5 downto 0),aluOpout);
+	AluMux: mux32x2 port map(ALUSrc,data2,signExtIns,AluBin);
+	AluMain:aluMain port map(aluOpout,data1,AluBin,Aluout,carryOut,overflow,zero);
+	InsShL2:branchShiftLeft port map(signExtIns,shLsignExt);
+	BranchAlu:adder32 port map(g_carry_in,nextPC,shLsignExt,BranchAluRes,BranchCarryout);
+	BranchMuxSel:BranchMuxCtrl port map(zero,BEQ,BNE,BranchMuxSelout);
+	BranchMux:mux32x2 port map(BranchMuxSelout,nextPC,BranchAluRes,BranchMuxOut);
+        JumpMux:mux32x2 port map(Jump,BranchMuxOut,jumpAddress);
+	DataMem:dataMem port map(Aluout,data2,dataMemOut);
+	DataMemMu:mux32x2 port map(MemToReg,dataMemOut,Aluout,dataMemMuxOut);
 	
-	-- add clocks and resets on combinational logic
-	-- need to do Control Units mapping
-	---- involves adding control ports to all necessary components and readjusting
-	
-	jumpAddress <= sig4AddOut(31 downto 28) & sigSLOut;
-	ctlMuxBranch <= ctlBranch and zero;  
-	
-	PC : PCreg port map(sigPCIn, sigPCOut);
-	IM : instrcutionMem port map(sigPCOut, sigInstruction);
-	regFile: regFile port map(sigInstruction(25 downto 21), sigInstruction(20 downto 16), sigMUX5Out, sigWD, sigRD1, sigRD2, ctlRegWrite);
-	aluMain : aluMain port map(sigRD1, sigMUXALU, sigALURes, sigZero, ctlALUtoControl);
-	dataMem : dataMem port map(sigALURes, sigRD2, sigRD, ctlMemRead, ctlMemWrite);
-	aluBranch : adder32 port map(sig4AddOut, sigSLAdd, sigAddOut);
-	aluPC : PC_adder32 port map(sigPCOut, "0000000000000100", sig4AddOut); -- PC + 4 adder
-	jumpShiftLeft2 : jumpShiftLeft2 port map(sigInstruction(25 downto 0), sigSLOut);
-	branchShiftLeft2 : branchShiftLeft2 port map(sigSEOut, sigSLAdd);
-	signExtend : signExtend port map(sigInstruction(15 downto 0), sigSEOut);
-	muxInstruction : mux5x2 port map(sigInstruction(20 downto 16), sigInstruction(15 downto 11), sigMUX5Out, ctlRegDst);
-	
-	-- why is this taking the 32 bits of sign extend
-	muxOp2 : mux8 port map(sigRD2, "sigSEOut", sigMUXALU, ctlALUSrc);
-	muxWrite : mux8x2 port map(sigRD, sigALURes, sigWD);
-	muxBranch : mux32x2 port map(sig4AddOut, sigAddOut, sigMUXTop1, ctlMuxBranch);
-	muxNextPC : mux32x2 port map(jumpAddress, sigMUXTop1, sigPCIn, ctlJump);
+	--------generate output
+        RegWriteOut<=RegWrite;
+	MemWriteOut<=MemWrite;
+	ZeroOut<=zero;
+	BranchOut<=
+	InstructionOut<=InsMemOut;
+	-------still misssing one Mux for the MuxOut
 	
 	
-	ctrlUnit : ctrlUnit port map(sigInstruction(31 downto 26), ctlRegDest, ctlJump, ctlBranch, ctlMemRead, ctlMemToReg, ctlALUPOp, ctlMemWrite, ctlALUSrc, ctlRegWrite, ctlALUOp);
 	
-	aluCtrl : aluCtrl port map(ctlALUOp, sigInstruction(5 downto 0), ctlALUtoControl);
-		
+	
 end topArch;
 
 -- Linking of components and top level entity------------
