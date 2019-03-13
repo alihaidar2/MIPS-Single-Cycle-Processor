@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity instructionMem is
 	port (
 		pcAddIn : in std_logic_vector(31 downto 0);
+		clk:in std_logic;
 		instructionOut: out std_logic_vector(31 downto 0)
 	);
 end entity;
@@ -16,5 +17,10 @@ type mem_Ins is array(0 to 255) of std_logic_vector(31 downto 0);
         attribute ramIns_init_file of ramIns : signal is "InstructionMem.mif";
 begin
 ram_addr<=pcAddIn;
-instructionOut<=ramIns(to_integer(unsigned(ram_addr)));
+process(clk)
+begin
+  if(rising_edge(clk)) then
+  instructionOut<=ramMem(to_integer(unsigned(ram_addr)));
+end if;
+end process;
 end architecture behave;

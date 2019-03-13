@@ -25,7 +25,7 @@ end component;
 
 begin
 	
-	generate32: for i in 0 to 31 generate
+	generate8: for i in 0 to 31 generate
 	
 	mux_gen: mux1x2 port map(a => a(i), b => b(i), sel => sel, z => z(i));	
 	end generate;
@@ -39,4 +39,3 @@ configuration conf_mux32x2 of mux32x2 is
 		end for;
 	end for;
 end conf_mux32x2;
-

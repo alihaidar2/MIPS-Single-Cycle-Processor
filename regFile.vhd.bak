@@ -85,7 +85,7 @@ begin
 end architecture;
 
 -- Linking of components and top level entity	
-configuration basic_level of regFile is
+configuration conf_regFile of regFile is
 	for regFilebehave
 		for all : mux8x8
 			use entity work.mux8x8(muxBehave);
@@ -97,4 +97,4 @@ configuration basic_level of regFile is
 			use entity work.reg8bits(regbehave);
 		end for;			
 	end for;
-end basic_level;	
+end conf_regFile;	

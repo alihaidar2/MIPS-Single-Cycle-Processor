@@ -65,7 +65,7 @@ component dataMem -- once
 		readDataOut : out std_logic_vector(7 downto 0);
 		
 		--control signals
-		memRead, memWrite : out std_logic
+		memRead, memWrite,clk : in std_logic
 	);
 end component;
 	
@@ -193,17 +193,6 @@ end component;
 	signal Data1,Data2,dataMemOut,dataMemMuxOut:std_logic_vector(7 downto 0);
 	signal signExtData2,signExtData1,signExtDataMemOut,signExtMemMuxout:std_logic_vector(31 downto 0);
 	signal labMuxOut,other: std_logic_vector(7 downto 0);
-	------mif file(not sure correct or not)
-	------Instruction Memory mif file
-	type mem_Ins is array(0 to 255) of unsigned(31 downto 0);
-        signal ramIns : mem_Ins;
-        attribute ramIns_init_file : string;
-        attribute ramIns_init_file of ramIns : signal is "InstructionMem.mif";
-	------Data Memory mif file
-	type mem_dat is array(0 to 255) of unsigned(31 downto 0);
-        signal ramMem : mem_dat;
-        attribute ramMem_init_file : string;
-        attribute ramMem_init_file of ramMem : signal is "dataMem.mif";
   
 begin 
 	jumpAddress(31 downto 28)<=nextPC(31 downto 28);
@@ -224,7 +213,7 @@ begin
 	BranchMuxSel:BranchMuxCtrl port map(zero,BEQ,BNE,BranchMuxSelout);
 	BranchMux:mux32x2 port map(BranchMuxSelout,nextPC,BranchAluRes,BranchMuxOut);
         JumpMux:mux32x2 port map(Jump,BranchMuxOut,jumpAddress);
-	MemData:dataMem port map(Aluout(7 downto 0),data2,dataMemOut);
+	MemData:dataMem port map(Aluout(7 downto 0),data2,dataMemOut,MemRead,MemWrite,GClock);
 	DataMemMu:mux32x2 port map(MemToReg,signExtDataMemOut,Aluout,signExtMemMuxout);
 	-------SignExtend 8-32
 	Data1Ext:signExtend8 port map(data1,signExtData1);
@@ -305,5 +294,6 @@ configuration conf_top of top is
 		end for;
 	end for;
 end conf_top;
+
 
 

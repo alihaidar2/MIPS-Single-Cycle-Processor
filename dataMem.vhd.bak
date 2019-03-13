@@ -30,7 +30,7 @@ begin
   end if;
   end if;
   if(memRead='1') then
-  readDataOut<=ramMem(to_integer(unsigned(ram_addr)));
+  readDataOut<=ramMem(to_integer(unsigned(ram_addr))) (memRead='1') ;
 else
   readDataOut<="00000000";
 end if;

@@ -24,7 +24,7 @@ end component;
 
 begin
 	
-	generate32: for i in 0 to 31 generate
+	generate8: for i in 0 to 31 generate
 	
 	mux_gen: mux1x4 port map(logicAND => logicAND(i), logicOR => logicOR(i), add_sub => add_sub(i), 
 		SLT => SLT(i), sel => sel, z => z(i)
@@ -40,4 +40,3 @@ configuration conf_mux32x4 of mux32x4 is
 		end for;
 	end for;
 end conf_mux32x4;
-

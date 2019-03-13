@@ -1,0 +1,29 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+-- 8 inputs mux (5 bits). 
+-- Generated once, for Write Register input
+
+entity mux5x2 is
+port (
+		sel : in std_logic;
+		a, b : in std_logic_vector(4 downto 0);
+		z : out std_logic_vector(4 downto 0)
+	);
+end entity;
+
+architecture muxBehave of mux5x2 is
+component SignExt1To8 is
+	port (
+	seIn : in std_logic;
+	seOut : out std_logic_vector(7 downto 0)
+	);
+end component;
+signal extSel:std_logic_vector(7 downto 0);
+begin
+  signExt:SignExt1To8 port map(sel,extSel);
+	z <= ((not(extSel(4 downto 0))) and (b)) or (extSel(4 downto 0) and a);
+
+end architecture muxBehave;
+	

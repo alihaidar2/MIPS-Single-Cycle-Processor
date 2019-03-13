@@ -38,5 +38,3 @@ configuration conf_mux5x2 of mux5x2 is
 		end for;
 	end for;
 end conf_mux5x2;
-
-	
