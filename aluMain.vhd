@@ -1,59 +1,3 @@
-library ieee;
-use ieee.numeric_std.all;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-
-library work;
-use work.all;
-
---Main ALU. Composed of add&sub, ofDetector, mux32x4
---The ALU is design to operate with 32 bits operands. In the 8 bits data version, 
---sign extends for operands will be needed to extend operands to 32 bits.
---Similarly, the 32 bits ALU output will have to be sliced to 8 bits when data mem is 256x8.
-entity ALUMain is
-	
-port (
-	aluOP : in std_logic_vector(2 downto 0); --Most significant bit of aluOP (aluOP(2)) will determine Cin for add/sub operation. Cin=1 for sub
-	aluIn1, aluIn2 : in std_logic_vector(31 downto 0);
-	aluOut : out std_logic_vector(31 downto 0); -- for a 256x8 data mem, output will be sliced to 8 bits
-	CarryOut : out std_logic;
-	ovrFlw : out std_logic;
-	zero : out std_logic
-);
-end entity;
-
-architecture aluMainArch of ALUMain is
-
---components used--------	
-component add_sub
-	PORT ( Cin, x, y : IN STD_LOGIC ;
-			s, Cout : OUT STD_LOGIC );
-end component;
-
-component mux32x4
-	port(
-		sel :in std_logic_vector(1 downto 0); 
-		logicAND, logicOR, add_sub, SLT: in std_logic_vector(31 downto 0);
-		z: out std_logic_vector(31 downto 0)
-	);
-end component;
-
-component ofDetector
-	port (
-		a, b, result : in std_logic;
-		ovrflw : out std_logic
-	);
-end component;
-
---carry signal through full adders
-	signal carry: std_logic_vector(30 downto 0);
--- Signal for result of add/sub operation
-	signal sig_aluOut: std_logic_vector(31 downto 0); 
--- signals for operations
-	signal sig_OR: std_logic_vector(31 downto 0);
-	signal sig_AND: std_logic_vector(31 downto 0);
-	signal sig_SLT: std_logic_vector(31 downto 0);	 
-	
 --Architecture------------	
 begin
 	
@@ -112,6 +56,4 @@ configuration conf_aluMain of aluMain is
 end conf_aluMain;	
 	
 	
-	
-
 	
