@@ -171,7 +171,8 @@ port (
 end component;
 
 component mux32x8 is
-  port(PC, ALUresult, readData1, readData2, writeData, other, i6, i7 : in std_logic_vector(7 downto 0); -- i6 and i7 not used
+ port(PC, ALUresult, readData1, readData2, writeData, other: in std_logic_vector(7 downto 0); -- i6 and i7 not used
+	  i6, i7:in std_logic;
 		sel :in std_logic_vector(2 downto 0);
 		muxOut: out std_logic_vector(7 downto 0));
 end component;
@@ -191,7 +192,7 @@ end component;
 	signal jumpAddress:std_logic_vector(31 downto 0);
 	signal Data1,Data2,dataMemOut,dataMemMuxOut:std_logic_vector(7 downto 0);
 	signal signExtData2,signExtData1,signExtDataMemOut,signExtMemMuxout:std_logic_vector(31 downto 0);
-	signal labMuxOut: std_logic_vector(7 downto 0);
+	signal labMuxOut,other: std_logic_vector(7 downto 0);
 	------mif file(not sure correct or not)
 	------Instruction Memory mif file
 	type mem_Ins is array(0 to 255) of unsigned(31 downto 0);
@@ -232,9 +233,15 @@ begin
 	dataMemOut<=signExtDataMemOut(7 downto 0);
 	dataMemMuxOut<=signExtMemMuxout(7 downto 0);	
 	--------generate output
-	outMux:mux32x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto 0),data1,data2,dataMemMuxOut, 0, 0, 0,ValueSelect,labMuxOut);
-    
-    RegWriteOut<=RegWrite;
+	outMux:mux32x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto 0),data1,data2,dataMemMuxOut,other,'0','0',ValueSelect,labMuxOut);
+  other(0)<= zero;
+  other(1)<=RegDst;
+  other(2)<=Jump;
+  other(3)<=MemRead;
+  other(4)<=MemToReg;
+  other(6 downto 5)<=ALUOp;
+  other(7)<=ALUSrc;
+  RegWriteOut<=RegWrite;
 	MemWriteOut<=MemWrite;
 	ZeroOut<=zero;
 	BranchOut<=BranchMuxSelout;
@@ -298,6 +305,9 @@ configuration conf_top of top is
 		end for;
 	end for;
 end conf_top;
+
+
+
 
 
 
