@@ -10,7 +10,7 @@ use ieee.numeric_std.all;
 entity mux8x8 is
 	
 	port(r0, r1, r2, r3, r4, r5, r6, r7 : in std_logic_vector(7 downto 0);
-		sel :in std_logic_vector(2 downto 0);
+		sel :in stdl_logic_vector(2 downto 0);
 		dataRead: out std_logic_vector(7 downto 0));
 		
 end entity mux8x8;

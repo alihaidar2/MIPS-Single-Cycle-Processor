@@ -16,7 +16,7 @@ use ieee.numeric_std.all;
 
 entity mux1x8 is
 	
-	port(PC, ALUresult, readData1, readData2, writeData, other, i6, i7: in std_logic;  -- i6 and i7 not used
+	port(in0, in1, in2, in3, in4, in5, in6, in7 : in std_logic;
 		sel :in std_logic_vector(2 downto 0);
 		muxOut: out std_logic);
 		
@@ -24,13 +24,13 @@ end entity mux1x8;
 
 architecture muxBehave of mux1x8 is
 begin
-	muxOut <= ( (PC and (not sel(2)) and (not sel(1)) and (not sel(0))) or 
-	(ALUresult and (not sel(2)) and (not sel(1)) and sel(0)) or
-	(readData1 and (not sel(2)) and sel(1) and (not sel(0))) or
-	(readData2 and (not sel(2)) and sel(1) and sel(0)) or
-	(writeData and sel(2) and (not sel(1)) and (not sel(0))) or
-	(other and sel(2) and (not sel(1)) and sel(0)) or
-	(i6 and sel(2) and sel(1) and (not sel(0))) or
-	(i7 and sel(2) and sel(1) and sel(0)) );
+	muxOut <= ( (in0 and (not sel(2)) and (not sel(1)) and (not sel(0))) or 
+	(in1 and (not sel(2)) and (not sel(1)) and sel(0)) or
+	(in2 and (not sel(2)) and sel(1) and (not sel(0))) or
+	(in3 and (not sel(2)) and sel(1) and sel(0)) or
+	(in4 and sel(2) and (not sel(1)) and (not sel(0))) or
+	(in5 and sel(2) and (not sel(1)) and sel(0)) or
+	(in6 and sel(2) and sel(1) and (not sel(0))) or
+	(in7 and sel(2) and sel(1) and sel(0)) );
 	
 end muxBehave;

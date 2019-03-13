@@ -14,8 +14,30 @@ end entity mux32x4;
 
 architecture muxBehave of mux32x4 is
 	
-begin
-	z <= ( (not sel(1) and (not sel(0)) and logicAND) or (not sel(1) and sel(0) and logicOR) or
-		(sel(1) and sel(0) and add_sub) or (sel(1) and sel(0) and SLT) );
+component mux1x4 is	
+	port(
+		sel :in std_logic_vector(1 downto 0); 
+		logicAND, logicOR, add_sub, SLT: in std_logic;
+		z: out std_logic
+	);	
+end component;	
 
+begin
+	
+	generate8: for i in 0 to 31 generate
+	
+	mux_gen: mux1x4 port map(logicAND => logicAND(i), logicOR => logicOR(i), add_sub => add_sub(i), 
+		SLT => SLT(i), sel => sel, z => z(i)
+	);	
+	end generate;
 end architecture muxBehave;
+
+-- Linking of components and top level entity
+configuration conf_mux32x4 of mux32x4 is
+	for muxBehave
+		for all : mux1x4
+			use entity work.mux1x4(muxBehave);
+		end for;
+	end for;
+end conf_mux32x4;
+
