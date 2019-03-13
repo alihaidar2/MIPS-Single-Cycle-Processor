@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Two 8 bits inputs mux
+-- 2 inputs mux (8 bits)
 -- this mux is generated once
 -- * for writeData input
 

@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Two 32 bits input mux. Used 2 times for:
+-- 2 inputs mux (32 bits). Used 2 times for:
 -- branch or jump selection
 -- PC input
 entity mux32x2 is

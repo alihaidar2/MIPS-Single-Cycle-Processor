@@ -2,7 +2,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Two 5 bits input mux. Generated once, for Write Register input
+-- 8 inputs mux (5 bits). 
+-- Generated once, for Write Register input
 
 entity mux5x2 is
 port (

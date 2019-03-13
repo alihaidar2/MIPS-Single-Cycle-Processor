@@ -7,27 +7,16 @@ entity d_latch is
 end d_latch;
 
 architecture basic of d_latch is
+
 begin
      latch_behavior: process is
+
      begin
         if rst = '1' then
-        	q <= '0' after 2 ns;
+        	q <= '0';
         elsif clk = '1' then	
-    		q <= d after 2ns;
+    		q <= d after 2 ns;
     	end if;
         wait on clk, d, rst;
      end process latch_behavior;
-end architecture basic;
-
-entity and_gate2 is
-port (clk, load: in std_logic; y: out std_logic);
-end and_gate2;
-
-architecture basic of and_gate2 is
-begin
-    and2_behavior: process is
-   begin
-       y <= clk and load after 2 ns;
-      wait on clk, load;
-   end process and2_behavior;
 end architecture basic;

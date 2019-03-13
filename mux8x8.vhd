@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---Eight 8 bits input mux
+--8 inputs mux (8 bits)
 --Mux used inside the Register file.
 --selects which register to read from. 
 --Will be generated two times for the 2 read outputs.
