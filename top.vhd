@@ -170,11 +170,11 @@ port (
 );  
 end component;
 
-component mux32x8 is
- port(PC, ALUresult, readData1, readData2, writeData, other: in std_logic_vector(7 downto 0); -- i6 and i7 not used
-	  i6, i7:in std_logic;
+component top_mux8x8 is
+ port(PC, ALUresult, readData1, readData2, writeData, other, i6, i7: in std_logic_vector(7 downto 0); -- i6 and i7 not used
 		sel :in std_logic_vector(2 downto 0);
 		muxOut: out std_logic_vector(7 downto 0));
+		
 end component;
 	-----------------------------------------------------
 
@@ -233,7 +233,7 @@ begin
 	dataMemOut<=signExtDataMemOut(7 downto 0);
 	dataMemMuxOut<=signExtMemMuxout(7 downto 0);	
 	--------generate output
-	outMux:mux32x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto 0),data1,data2,dataMemMuxOut,other,'0','0',ValueSelect,labMuxOut);
+	outMux:top_mux8x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto 0),data1,data2,dataMemMuxOut,other,"00000000","00000000",ValueSelect,labMuxOut);
   other(0)<= zero;
   other(1)<=RegDst;
   other(2)<=Jump;
@@ -300,14 +300,10 @@ configuration conf_top of top is
 		for all : ctrlUnit
 			use entity work.ctrlUnit(ctrLogic);
 		end for;
-		for all : mux32x8
-			use entity work.mux32x8(muxBehave);
+		for all : top_mux8x8
+			use entity work.top_mux8x8(muxBehave);
 		end for;
 	end for;
 end conf_top;
-
-
-
-
 
 
