@@ -31,13 +31,13 @@ end component;
 
 component mux8x8 is
 	port(r0, r1, r2, r3, r4, r5, r6, r7 : in std_logic_vector(7 downto 0);
-		sel :in stdl_logic_vector(2 downto 0);
+		sel :in std_logic_vector(2 downto 0);
 		dataRead: out std_logic_vector(7 downto 0));
 end component;
 
 component demux8x8 is
-	port(sel :in stdl_logic_vector(2 downto 0);
-		dataWrite: int std_logic_vector(7 downto 0);
+	port(sel :in std_logic_vector(2 downto 0);
+		dataWrite: in std_logic_vector(7 downto 0);
 		r0, r1, r2, r3, r4, r5, r6, r7 : out std_logic_vector(7 downto 0));
 end component;
 
