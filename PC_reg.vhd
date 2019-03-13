@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library work;
+use work.all;
+
 -- PC register
 
 entity PCreg is 
@@ -22,7 +25,7 @@ end component;
 --Architecture 
 begin
 iFF : for i in 0 to 31 generate
-FF : d_latch port map (d => PC_in(i), clk => clk, rst => rst, q => PC_out(i));
+	FF : d_latch port map (d => PC_in(i), clk => clk, rst => rst, q => PC_out(i));
 end generate iFF;
 
 end architecture reg;
