@@ -15,7 +15,8 @@ use ieee.numeric_std.all;
 
 entity mux32x8 is
 	
-	port(PC, ALUresult, readData1, readData2, writeData, other, i6, i7 : in std_logic_vector(7 downto 0); -- i6 and i7 not used
+	port(PC, ALUresult, readData1, readData2, writeData, other: in std_logic_vector(7 downto 0); -- i6 and i7 not used
+		i6, i7 : in std_logic;
 		sel :in stdl_logic_vector(2 downto 0);
 		muxOut: out std_logic_vector(7 downto 0));
 		

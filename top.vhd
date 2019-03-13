@@ -172,7 +172,7 @@ end component;
 
 component mux32x8 is
   port(PC, ALUresult, readData1, readData2, writeData, other, i6, i7 : in std_logic_vector(7 downto 0); -- i6 and i7 not used
-		sel :in stdl_logic_vector(2 downto 0);
+		sel :in std_logic_vector(2 downto 0);
 		muxOut: out std_logic_vector(7 downto 0));
 end component;
 	-----------------------------------------------------
@@ -232,7 +232,7 @@ begin
 	dataMemOut<=signExtDataMemOut(7 downto 0);
 	dataMemMuxOut<=signExtMemMuxout(7 downto 0);	
 	--------generate output
-	outMux:mux32x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto0),data1,data2,dataMemMuxOut,'0','0','0',ValueSelect,labMuxOut);
+	outMux:mux32x8 port map(PCaddrOut(7 downto 0),Aluout(7 downto 0),data1,data2,dataMemMuxOut, 0, 0, 0,ValueSelect,labMuxOut);
     
     RegWriteOut<=RegWrite;
 	MemWriteOut<=MemWrite;
