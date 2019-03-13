@@ -15,7 +15,7 @@ end entity mux32x4;
 architecture muxBehave of mux32x4 is
 	
 begin
-	z <= ( (not sel(1) and not sel(0) and logicAND) or (not sel(1) and sel(0) and logicOR) or
+	z <= ( (not sel(1) and (not sel(0)) and logicAND) or (not sel(1) and sel(0) and logicOR) or
 		(sel(1) and sel(0) and add_sub) or (sel(1) and sel(0) and SLT) );
 
 end architecture muxBehave;
