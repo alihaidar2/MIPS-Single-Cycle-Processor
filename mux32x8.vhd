@@ -7,9 +7,9 @@ use ieee.numeric_std.all;
 
 --000 PC The program counter value
 --001 ALUResult The result of the current ALU operation
---010 ReadData1 The read data 1 port of the register le
---011 ReadData2 The read data 2 port of the register le
---100 WriteData The write data port of the register le
+--010 ReadData1 The read data 1 port of the register File
+--011 ReadData2 The read data 2 port of the register File
+--100 WriteData The write data port of the register File
 --Other ['0', RegDst, Jump, MemRead, The remaining
 --MemtoReg, AluOp[1..0], AluSrc] control information
 
