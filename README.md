@@ -2,9 +2,10 @@
 
 We will be looking at an implementation of the MIPS processor, which in-
 cludes the following functionalities:
- Memory-reference instructions (lw and sw)
- Arithmetic logic instructions (add, sub, and, or and slt)
- Control 
+
+- Memory-reference instructions (lw and sw)
+- Arithmetic logic instructions (add, sub, and, or and slt)
+- Control 
 ow instructions (beq and j)
 
 We will be working with 8-bit datapaths and 32-bit instruction widths.  We will be
