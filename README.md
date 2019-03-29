@@ -1,7 +1,6 @@
 # MIPS Single Cycle Processor
 
-We will be looking at an implementation of the MIPS processor, which in-
-cludes the following functionalities:
+We will be looking at an implementation of the MIPS processor, which includes the following functionalities:
 
 - Memory-reference instructions (lw and sw)
 - Arithmetic logic instructions (add, sub, and, or and slt)
